@@ -22,7 +22,7 @@ function searchCountry(e) {
 
   fetchCountryByName(searchQuery)
     .then(renderCountryList)
-    .catch(error => console.log(error));
+    .catch(e => console.log(e));
 }
 
 function renderCountryList(countryies) {
@@ -34,14 +34,32 @@ function renderCountryList(countryies) {
   } else if (countryies.length < 10) {
     const manyCountries = countryListTpl(countryies);
     refs.cardForCountry.innerHTML = manyCountries;
+  } else if (countryies.length === undefined) {
+    errorAlert();
   } else {
-    alert({
-      title: `Найдено ${countryies.length} стран`,
-      text: 'Пожалуйста введите более точную информацию',
-      shadow: true,
-      delay: 3000,
-      width: '500px',
-      styling: 'material',
-    });
+    noticeAlert(countryies.length);
   }
+}
+
+function errorAlert() {
+  alert({
+    type: 'error',
+    title: `Не найдено ни одного совпадения`,
+    text: 'Пожалуйста введите более точную информацию',
+    shadow: true,
+    delay: 3000,
+    width: '500px',
+    styling: 'material',
+  });
+}
+
+function noticeAlert(countryies) {
+  alert({
+    title: `Найдено ${countryies} стран`,
+    text: 'Пожалуйста введите более точную информацию',
+    shadow: true,
+    delay: 3000,
+    width: '500px',
+    styling: 'material',
+  });
 }
